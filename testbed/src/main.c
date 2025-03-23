@@ -1,6 +1,5 @@
-#include "../../engine/src/logger.h"
-#include "../../engine/src/asserts.h"
-#include <stdio.h>
+#include "../../engine/src/core/logger.h"
+#include "../../engine/src/core/asserts.h"
 
 int main(void)
 {
@@ -13,6 +12,5 @@ int main(void)
   KTRACE("AAAAAAAA", 3.14f);
 
   KASSERT(1 == 0);
-  printf("Size of void*: %zu\n", sizeof(void *));
   return 0;
 }

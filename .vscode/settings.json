@@ -58,6 +58,7 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "logger.h": "c",
-    "system_error": "c"
+    "system_error": "c",
+    "defines.h": "c"
   }
 }
