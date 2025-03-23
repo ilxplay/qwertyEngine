@@ -59,6 +59,8 @@
   "files.associations": {
     "logger.h": "c",
     "system_error": "c",
-    "defines.h": "c"
+    "defines.h": "c",
+    "iosfwd": "c",
+    "xlocbuf": "c"
   }
 }

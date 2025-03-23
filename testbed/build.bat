@@ -11,11 +11,18 @@ FOR /R %%f in (*.c) do (
 REM echo "Files:" %cFilenames%
 
 SET assembly=testbed
-SET compilerFlags=-g 
+SET compilerFlags=-g -m64
 REM -Wall -Werror
 SET includeFlags=-Isrc -I../engine/src/
 SET linkerFlags=-L../bin/ -lengine.lib
 SET defines=-D_DEBUG -DKIMPORT
 
-ECHO "Building %assembly%%..."
+ECHO "Building %assembly% (64-bit)..."
 clang %cFilenames% %compilerFlags% -o ../bin/%assembly%.exe %defines% %includeFlags% %linkerFlags%
+
+IF %ERRORLEVEL% NEQ 0 (
+    ECHO "Build failed with error code %ERRORLEVEL%!"
+    exit /b %ERRORLEVEL%
+)
+
+ECHO "%assembly% built successfully."

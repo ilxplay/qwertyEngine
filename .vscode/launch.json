@@ -40,6 +40,19 @@
           "ignoreFailures": true
         }
       ]
-    }
+    },
+    {
+      "name": "Clang 64-bit Debug",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/testbed/src/main.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "clang build 64-bit"
+  },
   ]
 }

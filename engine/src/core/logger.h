@@ -1,3 +1,4 @@
+#pragma once
 
 #include "../defines.h"
 
@@ -23,7 +24,7 @@ typedef enum log_level
 } log_level;
 
 b8 initialize_logging();
-KAPI void shutdown_logging();
+void shutdown_logging();
 
 KAPI void log_output(log_level level, const char *message, ...);
 

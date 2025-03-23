@@ -1,7 +1,6 @@
 
 #include "../defines.h"
 
-// Disable assertions by commenting out the below line.
 #define KASSERTIONS_ENABLED
 
 #ifdef KASSERTIONS_ENABLED
