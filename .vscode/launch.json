@@ -29,8 +29,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/vscode/qwertyEngine/testbed/src",
-      "program": "c:/vscode/qwertyEngine/testbed/src/build/Debug/outDebug",
+      "cwd": "c:/vscode/qwertyEngine/engine/src/platform",
+      "program": "c:/vscode/qwertyEngine/engine/src/platform/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
@@ -53,6 +53,6 @@
       "externalConsole": false,
       "MIMode": "lldb",
       "preLaunchTask": "clang build 64-bit"
-  },
+    }
   ]
 }
