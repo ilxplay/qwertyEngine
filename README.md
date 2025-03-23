@@ -1,2 +1,2 @@
 # qwertyEngine
-Very simple game engine
+a small game engine platform
