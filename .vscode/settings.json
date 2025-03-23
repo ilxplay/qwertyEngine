@@ -61,6 +61,7 @@
     "system_error": "c",
     "defines.h": "c",
     "iosfwd": "c",
-    "xlocbuf": "c"
+    "xlocbuf": "c",
+    "platform.h": "c"
   }
 }
