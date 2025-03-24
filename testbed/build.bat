@@ -1,4 +1,3 @@
-REM Build script for testbed
 @ECHO OFF
 SetLocal EnableDelayedExpansion
 
