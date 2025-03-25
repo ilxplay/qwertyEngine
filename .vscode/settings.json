@@ -62,6 +62,25 @@
     "defines.h": "c",
     "iosfwd": "c",
     "xlocbuf": "c",
-    "platform.h": "c"
+    "platform.h": "c",
+    "algorithm": "cpp",
+    "expected": "cpp",
+    "optional": "cpp",
+    "type_traits": "cpp",
+    "xlocmon": "cpp",
+    "xtr1common": "cpp",
+    "xutility": "cpp",
+    "array": "cpp",
+    "compare": "cpp",
+    "format": "cpp",
+    "memory": "cpp",
+    "tuple": "cpp",
+    "utility": "cpp",
+    "xmemory": "cpp",
+    "memory.h": "c",
+    "entry.h": "c",
+    "vector": "cpp",
+    "xstring": "cpp",
+    "kmemory.h": "c"
   }
 }

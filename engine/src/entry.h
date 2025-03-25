@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core/application.h"
-#include "core/memory.h"
+#include "core/kmemory.h"
 #include "core/logger.h"
 #include "game_types.h"
 
