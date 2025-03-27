@@ -24,7 +24,7 @@ typedef struct event_context
   } data;
 } event_context;
 
-b8 event_initialize();
+KAPI b8 event_initialize();
 void event_shutdown();
 
 typedef b8 (*PFN_on_event)(u16 code, void *sender, void *listener_inst, event_context data);

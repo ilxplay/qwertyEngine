@@ -153,7 +153,6 @@ KAPI b8 input_is_key_down(keys key);
 KAPI b8 input_is_key_up(keys key);
 KAPI b8 input_was_key_down(keys key);
 KAPI b8 input_was_key_up(keys key);
-
 void input_process_key(keys key, b8 pressed);
 
 // mouse input

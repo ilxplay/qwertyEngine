@@ -4,6 +4,7 @@
 #include "logger.h"
 #include "kmemory.h"
 #include "../platform/platform.h"
+#include "input.h"
 
 typedef struct application_state
 {
@@ -41,7 +42,7 @@ b8 application_create(game *game_inst)
   app_state.is_running = TRUE;
   app_state.is_suspended = FALSE;
 
-  if (!event_initialize)
+  if (!event_initialize())
   {
     KERROR("event system had failed to initialize!");
     return FALSE;
@@ -98,12 +99,16 @@ b8 application_run()
         app_state.is_running = FALSE;
         break;
       }
+
+      // for safety reasons input should be handled the last
+      input_update(0); // assuming delta_time = 0
     }
   }
 
   app_state.is_running = FALSE;
 
   event_shutdown();
+  input_shutdown();
 
   platform_shutdown(&app_state.platform);
 
