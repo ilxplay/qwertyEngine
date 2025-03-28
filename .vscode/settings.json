@@ -81,6 +81,7 @@
     "entry.h": "c",
     "vector": "cpp",
     "xstring": "cpp",
-    "kmemory.h": "c"
+    "kmemory.h": "c",
+    "string.h": "c"
   }
 }

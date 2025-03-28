@@ -20,6 +20,9 @@ typedef struct application_state
 static b8 initialized = FALSE;
 static application_state app_state;
 
+b8 application_on_event(u16 code, void *sender, void *listener_inst, event_context context);
+b8 application_on_key(u16 code, void *sender, void *listener_inst, event_context context);
+
 b8 application_create(game *game_inst)
 {
   if (initialized)
@@ -47,6 +50,10 @@ b8 application_create(game *game_inst)
     KERROR("event system had failed to initialize!");
     return FALSE;
   }
+
+  event_register(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
+  event_register(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
+  event_register(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
 
   if (!platform_startup(
           &app_state.platform,
@@ -107,10 +114,66 @@ b8 application_run()
 
   app_state.is_running = FALSE;
 
+  event_unregister(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
+  event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
+  event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
+
   event_shutdown();
   input_shutdown();
 
   platform_shutdown(&app_state.platform);
 
   return TRUE;
+}
+
+b8 application_on_event(u16 code, void *sender, void *listener_inst, event_context context)
+{
+  switch (code)
+  {
+  case EVENT_CODE_APPLICATION_QUIT:
+  {
+    KINFO("EVENT_CODE_APPLICATION_QUIT recieved, shutting down.\n");
+    app_state.is_running = FALSE;
+    return TRUE;
+  }
+  }
+
+  return FALSE;
+}
+
+b8 application_on_key(u16 code, void *sender, void *listener_inst, event_context context)
+{
+  if (code == EVENT_CODE_KEY_PRESSED)
+  {
+    u16 key_code = context.data.u16[0];
+    if (key_code == KEY_ESCAPE)
+    {
+      // firing an event to itself there still may be other listeners
+      event_context data = {};
+      event_fire(EVENT_CODE_APPLICATION_QUIT, 0, data);
+
+      return TRUE;
+    }
+    else if (key_code == KEY_A)
+    {
+      KDEBUG("Explicit - A key pressed!");
+    }
+    else
+    {
+      KDEBUG("'%c' key pressed in window.", key_code);
+    }
+  }
+  else if (code == EVENT_CODE_KEY_RELEASED)
+  {
+    u16 key_code = context.data.u16[0];
+    if (key_code == KEY_B)
+    {
+      KDEBUG("Explicit - B key released!");
+    }
+    else
+    {
+      KDEBUG("'%c' key released in window.", key_code);
+    }
+  }
+  return FALSE;
 }

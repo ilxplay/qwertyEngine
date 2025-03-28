@@ -80,6 +80,9 @@ void input_process_mouse_move(i16 x, i16 y)
 {
   if (state.mouse_current.x != x || state.mouse_current.y != y)
   {
+
+    // KDEBUG("Mouse position: %i, %i", x, y);
+
     // update mouse state
     state.mouse_current.x = x;
     state.mouse_current.y = y;
