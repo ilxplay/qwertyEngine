@@ -82,6 +82,9 @@
     "vector": "cpp",
     "xstring": "cpp",
     "kmemory.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "clock.h": "c",
+    "input.h": "c",
+    "event.h": "c"
   }
 }

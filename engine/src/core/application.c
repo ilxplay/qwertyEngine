@@ -1,3 +1,4 @@
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #include "application.h"
 #include "../game_types.h"
 #include "event.h"
@@ -5,6 +6,7 @@
 #include "kmemory.h"
 #include "../platform/platform.h"
 #include "input.h"
+#include "clock.h"
 
 typedef struct application_state
 {
@@ -15,6 +17,7 @@ typedef struct application_state
   i16 width;
   i16 height;
   f64 last_time;
+  clock clock;
 } application_state;
 
 static b8 initialized = FALSE;
@@ -35,13 +38,14 @@ b8 application_create(game *game_inst)
 
   initialize_logging();
 
+  /*
   KFATAL("A test message: \n%f", 3.14f);
   KERROR("A test message: \n%f", 3.14f);
   KWARN("A test message: \n%f", 3.14f);
   KINFO("A test message: \n%f", 3.14f);
   KDEBUG("A test message: \n%f", 3.14f);
   KTRACE("A test message: \n%f", 3.14f);
-
+*/
   app_state.is_running = TRUE;
   app_state.is_suspended = FALSE;
 
@@ -81,6 +85,13 @@ b8 application_create(game *game_inst)
 
 b8 application_run()
 {
+  clock_start(&app_state.clock);
+  clock_update(&app_state.clock);
+  app_state.last_time = app_state.clock.elapsed;
+  f64 running_time = 0;
+  i8 frame_count = 0;
+  f64 target_frame_seconds = 1.0f / 60;
+
   // A MEMORY LEAK!      //no. coz i am calling it once
   KINFO(get_memory_usage_str());
 
@@ -93,22 +104,47 @@ b8 application_run()
 
     if (!app_state.is_suspended)
     {
-      if (!app_state.game_inst->update(app_state.game_inst, (f32)0))
+      clock_update(&app_state.clock);
+      f64 current_time = app_state.clock.elapsed;
+      f64 delta = (current_time - app_state.last_time);
+      f64 frame_start_time = platform_get_absolute_time();
+
+      if (!app_state.game_inst->update(app_state.game_inst, (f32)delta))
       {
         KFATAL("Game update failed, shutting down.");
         app_state.is_running = FALSE;
         break;
       }
 
-      if (!app_state.game_inst->render(app_state.game_inst, (f32)0))
+      if (!app_state.game_inst->render(app_state.game_inst, (f32)delta))
       {
         KFATAL("Game render failed, shutting down.");
         app_state.is_running = FALSE;
         break;
       }
 
+      f64 frame_end_time = platform_get_absolute_time();
+      f64 frame_elapsed_time = frame_end_time - frame_start_time;
+      running_time += frame_elapsed_time;
+      f64 remaining_seconds = target_frame_seconds - frame_start_time;
+
+      if (remaining_seconds > 0)
+      {
+        u64 remaining_ms = (remaining_seconds * 1000);
+
+        b8 limit_frames = FALSE;
+        if (remaining_ms > 0 && limit_frames)
+        {
+          platform_sleep(remaining_ms - 1);
+        }
+
+        frame_count++;
+      }
+
       // for safety reasons input should be handled the last
-      input_update(0); // assuming delta_time = 0
+      input_update(delta);
+
+      app_state.last_time = current_time;
     }
   }
 
