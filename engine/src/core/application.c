@@ -7,6 +7,8 @@
 #include "../platform/platform.h"
 #include "input.h"
 #include "clock.h"
+#include "../renderer/renderer_backend.h"
+#include "../renderer/renderer_frontend.h"
 
 typedef struct application_state
 {
@@ -70,6 +72,12 @@ b8 application_create(game *game_inst)
     return FALSE;
   }
 
+  if (!renderer_initialize(game_inst->app_config.name, &app_state.platform))
+  {
+    KERROR("Failed to initialize renderer!");
+    return FALSE;
+  }
+
   if (!app_state.game_inst->initialize(app_state.game_inst))
   {
     KFATAL("Game failed to initialize.");
@@ -123,6 +131,10 @@ b8 application_run()
         break;
       }
 
+      render_packet packet;
+      packet.delta_time = delta;
+      renderer_draw_frame(&packet);
+
       f64 frame_end_time = platform_get_absolute_time();
       f64 frame_elapsed_time = frame_end_time - frame_start_time;
       running_time += frame_elapsed_time;
@@ -156,6 +168,8 @@ b8 application_run()
 
   event_shutdown();
   input_shutdown();
+
+  renderer_shutdown();
 
   platform_shutdown(&app_state.platform);
 

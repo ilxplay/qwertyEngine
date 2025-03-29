@@ -85,6 +85,10 @@
     "string.h": "c",
     "clock.h": "c",
     "input.h": "c",
-    "event.h": "c"
+    "event.h": "c",
+    "renderer_backend.h": "c",
+    "renderer_frontend.h": "c",
+    "vulkan_backend.h": "c",
+    "vulkan_types.inl": "c"
   }
 }

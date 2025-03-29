@@ -3,7 +3,8 @@
     {
       "name": "windows-gcc-x64",
       "includePath": [
-        "${workspaceFolder}/**"
+        "${workspaceFolder}/**",
+        "C:/VulkanSDK/1.4.304.1/Include"
       ],
       "defines": [
         "_DEBUG",
@@ -20,7 +21,7 @@
       "name": "Win64",
       "includePath": [
         "${workspaceFolder}/engine/src/**",
-        "${VULKAN_SDK}/include"
+        "C:/VulkanSDK/1.4.304.1/Include"
       ],
       "defines": [
         "_DEBUG",
@@ -33,7 +34,10 @@
       //"compilerPath": "C:\\Program Files\\LLVM\\bin",
       "cStandard": "c17",
       "cppStandard": "c++17",
-      "intelliSenseMode": "clang-x64"
+      "intelliSenseMode": "clang-x64",
+      "compilerArgs": [
+        "-I", "C:/VulkanSDK/1.4.304.1/Include"
+      ]
     }
   ],
   "version": 4
