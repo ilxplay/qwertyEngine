@@ -89,6 +89,7 @@
     "renderer_backend.h": "c",
     "renderer_frontend.h": "c",
     "vulkan_backend.h": "c",
-    "vulkan_types.inl": "c"
+    "vulkan_types.inl": "c",
+    "darray.h": "c"
   }
 }
