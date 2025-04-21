@@ -42,15 +42,59 @@ b8 vulkan_renderer_backend_initialize(renderer_backend *renderer_backend, const 
   create_info.enabledExtensionCount = darray_length(required_extensions);
   create_info.ppEnabledExtensionNames = required_extensions;
 
-  create_info.enabledLayerCount = 0;
-  create_info.ppEnabledLayerNames = 0;
+  // guess what that is?????
+  const char **required_validation_layer_names = 0;
+  u32 required_validation_layer_count = 0;
 
-  VkResult result = vkCreateInstance(&create_info, context.allocator, &context.instance);
-  if (result != VK_SUCCESS)
+#if defined(_DEBUG)
+  KINFO(
+      "Vulkan valdiation layers are enabled");
+
+  required_validation_layer_names = darray_create(const char *);
+  darray_push(required_validation_layer_names, &"VK_LAYER_KHRONOS_validation");
+  required_validation_layer_count = darray_length(required_validation_layer_names);
+
+  u32 available_layer_count = 0;
+  VK_CHECK(vkEnumerateInstanceLayerProperties(&available_layer_count, 0));
+  VkLayerProperties *available_layers = darray_reserve(VkLayerProperties, available_layer_count);
+  VK_CHECK(vkEnumerateInstanceLayerProperties(&available_layer_count, available_layers));
+
+  for (u32 i = 0; i < required_validation_layer_count; i++)
   {
-    KERROR("Failed to create Vulkan instance: %u", result);
-    return FALSE;
+    KINFO(
+        "Layer is being obtained: &s...",
+        required_validation_layer_count);
+
+    b8 found = FALSE;
+    for (u32 j = 0; j < available_layer_count; j++)
+    {
+      if (strings_equal(required_validation_layer_names[i], available_layers[j].layerName))
+      {
+        found = TRUE;
+        KINFO(
+            "Layer was found");
+        break;
+      }
+    }
+
+    if (!found)
+    {
+      KFATAL(
+          "Required validation layer could not be found:%s",
+          required_validation_layer_names[i]);
+
+      return FALSE;
+    }
   }
+
+  KINFO("All layers are all right and in attendance");
+
+#endif
+
+  create_info.enabledLayerCount = required_validation_layer_count;
+  create_info.ppEnabledLayerNames = required_validation_layer_names;
+
+  VK_CHECK(vkCreateInstance(&create_info, context.allocator, &context.instance));
 
   KINFO("Vulkan renderer initialized succesfully");
 
