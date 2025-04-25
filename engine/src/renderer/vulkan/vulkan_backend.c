@@ -62,7 +62,7 @@ b8 vulkan_renderer_backend_initialize(renderer_backend *renderer_backend, const 
   for (u32 i = 0; i < required_validation_layer_count; i++)
   {
     KINFO(
-        "Layer is being obtained: &s...",
+        "Layer is being obtained:",
         required_validation_layer_count);
 
     b8 found = FALSE;

@@ -48,7 +48,7 @@ b8 platform_startup(
   wc.hIcon = icon;
   wc.hCursor = LoadCursor(NULL, IDC_ARROW); // NULL; // Manage the cursor manually
   wc.hbrBackground = NULL;                  // Transparent
-  wc.lpszClassName = "kohi_window_class";
+  wc.lpszClassName = "qwerty_window_class";
 
   if (!RegisterClassA(&wc))
   {
